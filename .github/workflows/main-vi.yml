@@ -1,16 +1,16 @@
-name: xiaomi-mini-v3
+name: xiaomi-mini-v4
 
-on:
-  push:
-    branches: 
-      - master
+on: [push]
+  #push:
+  #  branches: 
+  #    - master
   #pull_request:
   #  branches: [ master ]
 
 #修改TNAME: K2P-5.0 中的K2P-5.0为你需要编译的型号，注意名称要与configs/templates/目录下的名字相同
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
 
     steps:
