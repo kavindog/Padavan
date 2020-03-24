@@ -1,8 +1,8 @@
 name: xiaomi-mini-v1
 
 on:
-  #push:
-  #  #branches: [ master ]
+  push:
+    branches: [ master ]
   #pull_request:
   #  branches: [ master ]
 
@@ -25,11 +25,15 @@ jobs:
         pkg-config zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev gcc-multilib
     - name: Clone source code
       run: |
-        git clone --depth=1 https://github.com/chongshengB/rt-n56u.git /opt/rt-n56u
+        git clone --depth=1 https://gitee.com/hanwckf/rt-n56u.git /opt/rt-n56u
         cd /opt/rt-n56u/toolchain-mipsel
-        mkdir -p toolchain-3.4.x
-        wget https://github.com/hanwckf/padavan-toolchain/releases/download/v1.1/mipsel-linux-uclibc.tar.xz
-        tar -xvf mipsel-linux-uclibc.tar.xz -C toolchain-3.4.x
+        #可以先下载下载预编译的工具链，与原编编译工具链二选一
+        # mkdir -p toolchain-3.4.x
+        # wget https://github.com/hanwckf/padavan-toolchain/releases/download/v1.1/mipsel-linux-uclibc.tar.xz
+        # tar -xvf mipsel-linux-uclibc.tar.xz -C toolchain-3.4.x
+        # 可以从源码编译工具链，这需要一些时间：
+        ./clean_toolchain
+        ./build_toolchain
         mkdir -p /opt/images/
     - name: Build Firmware
       env:
@@ -93,9 +97,11 @@ jobs:
         sudo ./clear_tree
         sudo ./build_firmware_bkye $TNAME
         sudo mv -f images/*.trx /opt/images/
-    - name : Upload packages
-      uses: actions/upload-artifact@master
-      if: always()
-      with:
-        name: Padavan-packages
-        path: /opt/images
+        
+        # 可以删除以下
+        #- name : Upload packages
+        #uses: actions/upload-artifact@master
+        # if: always()
+        # with:
+        # name: Padavan-packages
+        # path: /opt/images
