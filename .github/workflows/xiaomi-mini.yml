@@ -2,7 +2,8 @@ name: xiaomi-mini-v1
 
 on:
   push:
-    branches: [ master ]
+    branches: 
+      -master
   #pull_request:
   #  branches: [ master ]
 
@@ -105,3 +106,8 @@ jobs:
         # with:
         # name: Padavan-packages
         # path: /opt/images
+        - name: Upload artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: Padavan firmware
+          path: ./bin/targets/
